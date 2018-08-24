@@ -16,13 +16,13 @@ headers = {
         }
 
 # 设置urllib.request的代理
-proxy_support = urllib.request.ProxyHandler({'https': '127.0.0.1:1080'})
+proxy_support = urllib.request.ProxyHandler({'https': '127.0.0.1:1087'})
 opener = urllib.request.build_opener(proxy_support)
 urllib.request.install_opener(opener)
 
 # 记录错误urls
 def writeErrors(src, save_path):
-    f = open(save_path + '\\FailedUrls.txt', 'a', encoding = 'utf-8')
+    f = open(save_path + '/FailedUrls.txt', 'a', encoding = 'utf-8')
     f.write(src + '\n')
     f.close()
 
@@ -40,8 +40,8 @@ def getPicJson(ins_url):
         except socket.timeout:
             print(ins_url + " time out!")
             attempts += 1
-        except urllib.error.URLError:
-            print(ins_url + " is Error!")
+        except urllib.error.URLError as e:
+            print(e, ins_url + " is Error!")
             attempts += 1
         except http.client.IncompleteRead:
             print("Read response incompeletely!")
@@ -77,7 +77,7 @@ def saveSingleImage(resJson, save_path):
     media_name = resJson['graphql']['shortcode_media']['shortcode']
     print(img_src)
     try:
-        urllib.request.urlretrieve(img_src, save_path + "\\" + media_name + ".jpg")
+        urllib.request.urlretrieve(img_src, save_path + "/" + media_name + ".jpg")
 
     except ssl.SSLEOFError:
         writeErrors(img_src, save_path)
@@ -96,7 +96,7 @@ def saveMultiImages(resJson, save_path):
             media_src = e['node']['video_url']
             media_name = e['node']['shortcode']
             try:
-                urllib.request.urlretrieve(media_src, save_path + '\\' + media_name + '.mp4')
+                urllib.request.urlretrieve(media_src, save_path + '/' + media_name + '.mp4')
                 
             except ssl.SSLEOFError:
                 writeErrors(media_src, save_path)
@@ -112,7 +112,7 @@ def saveMultiImages(resJson, save_path):
             media_src = e['node']['display_url']
             media_name = e['node']['shortcode']
             try:
-                urllib.request.urlretrieve(media_src, save_path + '\\' + media_name + '.jpg')
+                urllib.request.urlretrieve(media_src, save_path + '/' + media_name + '.jpg')
                 
             except ssl.SSLEOFError:
                 writeErrors(media_src, save_path)
@@ -132,7 +132,7 @@ def saveVideo(resJson, save_path):
     media_name = resJson['graphql']['shortcode_media']['shortcode']
     print(mp4_src)
     try:
-        urllib.request.urlretrieve(mp4_src, save_path + "\\" + media_name + ".mp4")
+        urllib.request.urlretrieve(mp4_src, save_path + "/" + media_name + ".mp4")
         
     except ssl.SSLEOFError:
         writeErrors(mp4_src, save_path)
@@ -153,9 +153,9 @@ def saveText(resJson, save_path):
         text = text_list[0]['node']['text']
     likes = str(resJson['graphql']['shortcode_media']['edge_media_preview_like']['count'])
 
-    ft = open(save_path + "\\text.txt", 'w', encoding = 'utf-8')
+    ft = open(save_path + "/text.txt", 'w', encoding = 'utf-8')
     ft.write(text)
     ft.close()
-    fl = open(save_path + "\\likes.txt", 'w', encoding = 'utf-8')
+    fl = open(save_path + "/likes.txt", 'w', encoding = 'utf-8')
     fl.write(likes)
     fl.close()

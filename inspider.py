@@ -20,7 +20,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Classify which kind of url.")
     parser.add_argument('--mode', dest='mode', help="Choose from \'i\' or \'a\', where \'i\' represents this url is a image url, and \'a\' represents this url is someone's homepage.", required=True)
     parser.add_argument('--url', dest='url', help="Specify an Instagram url.", required=True)
-    parser.add_argument('--count', dest='count', type=int, help="How much urls you want to crawl.", required=False)
+    parser.add_argument('--count', dest='count', type=int, default=20, help="How much urls you want to crawl.", required=False)
     
     args = parser.parse_args()
     ins_url = str(args.url)
@@ -32,7 +32,7 @@ if __name__ == "__main__":
         except FileExistsError:
             pass
             
-        save_path = 'Images\\' + ins_url.split('p/')[1][:-1]
+        save_path = 'Images/' + ins_url.split('p/')[1][:-1]
         try:
             os.mkdir(save_path)
         except FileExistsError:

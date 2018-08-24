@@ -13,11 +13,15 @@ import socket
 from bs4 import BeautifulSoup
 
 headers = {
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebkit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
+        'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:23.0) Gecko/20100101 Firefox/23.0',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+        'Accept-Encoding': 'gzip, deflate, br',
+        'Accept-Language': 'zh-CN,zh;q=0.9',
+        'Connection': 'keep-alive'
         }
 
 # 设置urllib.request的代理
-proxy_support = urllib.request.ProxyHandler({'https': '127.0.0.1:1080'})
+proxy_support = urllib.request.ProxyHandler({'https': '127.0.0.1:1087'})
 opener = urllib.request.build_opener(proxy_support)
 urllib.request.install_opener(opener)
 
@@ -35,8 +39,8 @@ def getHomeJson(ins_url):
             print(ins_url + " time out!")
             attempts += 1
 
-        except urllib.error.URLError:
-            print(ins_url + " is Error!")
+        except urllib.error.URLError as e:
+            print(e.reason)
             attempts += 1
 
         else:
