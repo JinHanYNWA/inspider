@@ -18,7 +18,7 @@ def saveFromUrl(url, save_path):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Classify which kind of url.")
-    parser.add_argument('--mode', dest='mode', help="Choose from \'i\' or \'a\', where \'i\' represents this url is a image url, and \'a\' represents this url is someone's homepage.", required=True)
+    parser.add_argument('--mode', dest='mode', help="Choose from \'p\' or \'u\', where \'p\' represents this url is a image url, and \'u\' represents this url is someone's homepage.", required=True)
     parser.add_argument('--url', dest='url', help="Specify an Instagram url.", required=True)
     parser.add_argument('--count', dest='count', type=int, default=20, help="How much urls you want to crawl.", required=False)
     
@@ -26,7 +26,7 @@ if __name__ == "__main__":
     ins_url = str(args.url)
 
     # 单个链接爬虫
-    if args.mode == 'i':
+    if args.mode == 'p':
         try:
             os.mkdir('Images')
         except FileExistsError:
@@ -40,7 +40,7 @@ if __name__ == "__main__":
         saveFromUrl(ins_url, save_path)
 
     # 个人主页爬虫
-    elif args.mode == 'a':
+    elif args.mode == 'u':
         save_path = ins_url.split('com/')[1][:-1]
         resJson = getHomeJson(ins_url)
         try:
